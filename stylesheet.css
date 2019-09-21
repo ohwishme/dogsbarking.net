@@ -18,7 +18,7 @@ html, body {
   overflow: hidden;
 }
 
-div {
+#navbar {
  position: fixed;
   top: 40%;
   left: 50%;
