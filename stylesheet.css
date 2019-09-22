@@ -31,8 +31,11 @@ h1 {
  position: fixed;
   top: 40%;
   left: 50%;
-  margin-top: -10px;
+  margin-top: 0px;
   margin-left: -315px;
+  font-family: "Futura";
+  font-style: bold
+    
 }
 
 img {
