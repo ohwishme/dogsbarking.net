@@ -27,12 +27,13 @@ div {
 
 }
 
-h {
+h1 {
  position: fixed;
   top: 40%;
   left: 50%;
   margin-top: -10px;
   margin-left: -315px;
+}
 
 img {
 height : 150px;
