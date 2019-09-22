@@ -18,7 +18,7 @@ html, body {
   overflow: hidden;
 }
 
-#navbar {
+div {
  position: fixed;
   top: 40%;
   left: 50%;
@@ -27,7 +27,7 @@ html, body {
 
 }
 
-#words {
+h {
  position: fixed;
   top: 40%;
   left: 50%;
