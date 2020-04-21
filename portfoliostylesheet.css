@@ -5,17 +5,9 @@ html, body {
 }
 
 a {
-  align: center;
   font-family: "Futura";
   font-style: bold;
   color: #ff6666;
   font-size: 62px;
     
-}
-
-img {
-height : 150px;
-width: 150px;
-padding: 30px;
-
 }
