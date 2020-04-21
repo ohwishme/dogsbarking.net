@@ -4,8 +4,8 @@ html, body {
   overflow:hidden;
 }
 
-a {
-  font-family: "Arial"; 
+a, a:link, a:visited {
+  font-family: "Futura"; 
   font-style: bold;
   color: #ff6666;
   font-size: 62px;
