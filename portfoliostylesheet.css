@@ -5,7 +5,12 @@ html, body {
 }
 
 a, a:link, a:visited {
-  font-family: "Arial"; 
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  margin-top: -70px;
+  margin-left: -290px;
+  font-family: "Futura";
   font-style: bold;
   color: #ff6666;
   font-size: 62px;
