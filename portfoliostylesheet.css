@@ -4,12 +4,8 @@ html, body {
   overflow:hidden;
 }
 
-div {
- position: fixed;
-  top: 40%;
-  left: 50%;
-  margin-top: -70px;
-  margin-left: -290px;
+a {
+  align: center;
   font-family: "Futura";
   font-style: bold;
   color: #ff6666;
