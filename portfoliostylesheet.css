@@ -5,5 +5,8 @@ html, body {
 }
 
 a {
-  font-family: "Futura";   
+  font-family: "Arial"; 
+  font-style: bold;
+  color: #ff6666;
+  font-size: 62px;
 }
