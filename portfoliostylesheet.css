@@ -4,7 +4,7 @@ html, body {
   overflow:hidden;
 }
 
-h1 {
+a {
  position: fixed;
   top: 40%;
   left: 50%;
