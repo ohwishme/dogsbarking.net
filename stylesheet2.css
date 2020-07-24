@@ -7,17 +7,17 @@ html, body {
 
 #vid{
   position: fixed;
-  top: 40%;
+   top: 40%;
   left: 50%;
-  margin-top: -500px;
-  margin-left: 0px;
+  margin-top: -25px;
+  margin-left: -315px;
 }
 
 div {
  position: fixed;
   top: 40%;
   left: 50%;
-  margin-top: -25px;
+  margin-top: 25px;
   margin-left: -315px;
 
 }
