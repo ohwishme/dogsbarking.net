@@ -1,0 +1,6 @@
+<head>
+<script type="text/javascript">
+// Redirect on the frontend (client side)
+window.location.replace("https://www.yall1.bandcamp.com");
+</script>
+</head>
