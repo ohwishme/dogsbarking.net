@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Fullscreen video */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* GIF Buttons container */
+.gif-buttons {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 2;
+}
+
+/* Individual GIF buttons */
+.gif-button {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.gif-button:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive sizing */
+@media (max-width: 600px) {
+  .gif-button {
+    width: 50px;
+    height: 50px;
+  }
+}
