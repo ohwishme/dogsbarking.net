@@ -33,10 +33,10 @@ body, html {
 
 /* Individual GIF buttons */
 .gif-button {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 0px;
   transition: transform 0.2s;
 }
 
