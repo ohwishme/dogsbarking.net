@@ -33,8 +33,8 @@ body, html {
 
 /* Individual GIF buttons - larger and rectangular */
 .gif-button {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
   border-radius: 0; /* Fully rectangular */
   transition: transform 0.2s;
@@ -47,7 +47,7 @@ body, html {
 /* Responsive sizing for smaller screens */
 @media (max-width: 600px) {
   .gif-button {
-    width: 65px;
-    height: 65px;
+    width: 70px;
+    height: 70px;
   }
 }
