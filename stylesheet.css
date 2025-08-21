@@ -24,9 +24,9 @@ body, html {
 /* GIF Buttons container */
 .gif-buttons {
   position: fixed;
-  bottom: 20px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   display: flex;
   gap: 20px;
   z-index: 2;
