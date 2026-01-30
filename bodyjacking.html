@@ -3,20 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Scroll-fade video background</title>
-  <style>
-    :root { --fade: 0.15; } /* crossfade softness; higher = longer fade */
-    html, body { margin: 0; padding: 0; height: 100%; background: #000; color: #fff; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  <title>Scroll Video Background</title>
 
-    /* Background layer */
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* Background video layer */
     .bg {
       position: fixed;
       inset: 0;
-      overflow: hidden;
       z-index: 0;
-      background: #000;
+      overflow: hidden;
     }
+
     .bg video {
       position: absolute;
       inset: 0;
@@ -24,161 +30,133 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 200ms linear;
+      transition: opacity 300ms linear;
       will-change: opacity;
-      filter: saturate(1.05) contrast(1.05);
-    }
-    .bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0,0,0,0.15), rgba(0,0,0,0.55));
-      pointer-events: none;
     }
 
-    /* Foreground layer */
+    /* Foreground content */
     .fg {
       position: relative;
       z-index: 1;
-      min-height: 100vh;
-      pointer-events: auto;
     }
+
     .panel {
       min-height: 100vh;
-      display: grid;
-      align-content: center;
-      gap: 16px;
-      padding: 10vh 8vw;
-      backdrop-filter: blur(0px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      text-align: center;
+      padding: 8vh 8vw;
     }
-    .card {
-      max-width: 900px;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px;
-      padding: 22px 20px;
+
+    h1, h2 {
+      margin: 0;
+      font-weight: 500;
+      line-height: 1.1;
     }
-    h1, h2 { margin: 0 0 8px 0; line-height: 1.05; }
-    p { margin: 0; line-height: 1.5; opacity: 0.92; }
+
+    p {
+      max-width: 700px;
+      margin: 0;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+
     img {
-      width: min(520px, 100%);
+      max-width: min(520px, 100%);
       height: auto;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
       display: block;
     }
   </style>
 </head>
+
 <body>
 
-  <!-- Background videos: stack them; JS controls opacity -->
+  <!-- Background videos -->
   <div class="bg" aria-hidden="true">
-    <video data-key="a" autoplay muted loop playsinline preload="metadata" src="video-01.mp4"></video>
-    <video data-key="b" autoplay muted loop playsinline preload="metadata" src="video-02.mp4"></video>
-    <video data-key="c" autoplay muted loop playsinline preload="metadata" src="video-03.mp4"></video>
+    <video data-key="a" autoplay muted loop playsinline src="video-01.mp4"></video>
+    <video data-key="b" autoplay muted loop playsinline src="video-02.mp4"></video>
+    <video data-key="c" autoplay muted loop playsinline src="video-03.mp4"></video>
   </div>
 
-  <!-- Foreground content: normal scroll -->
+  <!-- Foreground content -->
   <main class="fg">
     <section class="panel" data-video="a">
-      <div class="card">
-        <h1>Section A</h1>
-        <p>When this section is on screen, background crossfades to video-01.</p>
-      </div>
+      <h1>Title One</h1>
       <img src="placeholder_body_01.png" alt="">
+      <p>Minimal centered content.</p>
     </section>
 
     <section class="panel" data-video="b">
-      <div class="card">
-        <h2>Section B</h2>
-        <p>Scroll here: background crossfades to video-02.</p>
-      </div>
+      <h2>Title Two</h2>
       <img src="placeholder_body_02.png" alt="">
+      <p>Pure foreground layer.</p>
     </section>
 
     <section class="panel" data-video="c">
-      <div class="card">
-        <h2>Section C</h2>
-        <p>Scroll here: background crossfades to video-03.</p>
-      </div>
+      <h2>Title Three</h2>
       <img src="placeholder_body_03.png" alt="">
+      <p>No containers. No borders.</p>
     </section>
   </main>
 
   <script>
-    // Crossfade logic: pick the most "centered" panel; fade between its video and others.
-    const videos = Array.from(document.querySelectorAll('.bg video'));
-    const panels = Array.from(document.querySelectorAll('.panel'));
+    const videos = [...document.querySelectorAll('.bg video')];
+    const panels = [...document.querySelectorAll('.panel')];
     const map = new Map(videos.map(v => [v.dataset.key, v]));
 
-    // Ensure first video is visible immediately
-    let activeKey = panels[0]?.dataset.video || videos[0]?.dataset.key;
-    if (map.get(activeKey)) map.get(activeKey).style.opacity = 1;
+    let active = panels[0]?.dataset.video;
+    if (map.get(active)) map.get(active).style.opacity = 1;
 
-    function clamp01(x){ return Math.max(0, Math.min(1, x)); }
-
-    function scorePanel(panel) {
+    function score(panel) {
       const r = panel.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const center = vh * 0.5;
-      // score higher when panel center is near viewport center
-      const panelCenter = r.top + r.height * 0.5;
-      const dist = Math.abs(panelCenter - center);
-      // normalize by viewport height
-      return 1 - clamp01(dist / (vh * 0.6));
+      const vh = window.innerHeight;
+      const center = vh / 2;
+      const panelCenter = r.top + r.height / 2;
+      return 1 - Math.min(1, Math.abs(panelCenter - center) / (vh * 0.6));
     }
 
     function update() {
-      // find best panel
-      let best = null, bestScore = -1;
+      let bestPanel = null;
+      let bestScore = -1;
+
       for (const p of panels) {
-        const s = scorePanel(p);
-        if (s > bestScore) { bestScore = s; best = p; }
-      }
-      if (!best) return;
-
-      const key = best.dataset.video;
-      if (!map.has(key)) return;
-
-      // soft crossfade: active video opacity follows bestScore, others inverse
-      // tweak with --fade for longer blend windows
-      const fade = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fade')) || 0.15;
-
-      // If key changes, start playing it (Safari sometimes needs this even if muted)
-      if (key !== activeKey) {
-        activeKey = key;
-        const v = map.get(activeKey);
-        if (v && v.paused) v.play().catch(()=>{});
-      }
-
-      for (const [k, v] of map.entries()) {
-        if (k === activeKey) {
-          v.style.opacity = 1;
-        } else {
-          v.style.opacity = 0;
+        const s = score(p);
+        if (s > bestScore) {
+          bestScore = s;
+          bestPanel = p;
         }
       }
 
-      // Optional: if you want a *gradual* blend based on score, uncomment below and comment the loop above.
-      /*
-      for (const [k, v] of map.entries()) {
-        if (k === key) v.style.opacity = clamp01((bestScore - fade) / (1 - fade));
-        else v.style.opacity = 0;
+      if (!bestPanel) return;
+
+      const key = bestPanel.dataset.video;
+      if (key === active) return;
+
+      active = key;
+      for (const v of videos) {
+        v.style.opacity = v.dataset.key === key ? 1 : 0;
+        if (v.dataset.key === key && v.paused) v.play().catch(()=>{});
       }
-      */
     }
 
-    // Use rAF-throttled scroll/resize
     let ticking = false;
-    function onChange() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => { ticking = false; update(); });
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+        ticking = true;
+      }
     }
 
-    window.addEventListener('scroll', onChange, { passive: true });
-    window.addEventListener('resize', onChange);
-    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
   </script>
+
 </body>
 </html>
