@@ -41,15 +41,15 @@
     .panel {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0;          /* remove padding so images can truly fill */
+      padding: 0;
       margin: 0;
     }
 
+    /* PNGs scale to browser width */
     img {
-      width: 100vw;        /* fit browser width */
+      width: 100vw;
       max-width: 100vw;
       height: auto;
       display: block;
@@ -66,18 +66,18 @@
     <video data-key="c" autoplay muted loop playsinline src="video-03.mp4"></video>
   </div>
 
-  <!-- Foreground content (images only) -->
+  <!-- Foreground content (PNGs) -->
   <main class="fg">
     <section class="panel" data-video="a">
-      <img src="image-01.jpg" alt="">
+      <img src="placeholder_body_01.png" alt="">
     </section>
 
     <section class="panel" data-video="b">
-      <img src="image-02.jpg" alt="">
+      <img src="placeholder_body_02.png" alt="">
     </section>
 
     <section class="panel" data-video="c">
-      <img src="image-03.jpg" alt="">
+      <img src="placeholder_body_03.png" alt="">
     </section>
   </main>
 
