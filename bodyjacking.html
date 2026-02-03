@@ -19,6 +19,7 @@
       inset: 0;
       z-index: 0;
       overflow: hidden;
+      pointer-events: none; /* never block foreground */
     }
 
     .bg video {
@@ -28,31 +29,34 @@
       height: 100%;
       object-fit: cover;
       opacity: 0;
-      transition: opacity 300ms linear;
+      transition: opacity 350ms linear;
       will-change: opacity;
     }
 
     /* Foreground content */
     .fg {
       position: relative;
-      z-index: 1;
+      z-index: 2;          /* ensure above videos */
+      pointer-events: auto;
     }
 
     .panel {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0;          /* remove padding so images can truly fill */
+      padding: 0;
       margin: 0;
     }
 
+    /* PNGs scale to browser width */
     img {
-      width: 100vw;        /* fit browser width */
+      width: 100vw;
       max-width: 100vw;
       height: auto;
       display: block;
+      position: relative;
+      z-index: 3;          /* belt + suspenders */
     }
   </style>
 </head>
@@ -61,23 +65,23 @@
 
   <!-- Background videos -->
   <div class="bg" aria-hidden="true">
-    <video data-key="a" autoplay muted loop playsinline src="video-01.mp4"></video>
-    <video data-key="b" autoplay muted loop playsinline src="video-02.mp4"></video>
-    <video data-key="c" autoplay muted loop playsinline src="video-03.mp4"></video>
+    <video data-key="a" autoplay muted loop playsinline preload="auto" src="video-01.mp4"></video>
+    <video data-key="b" autoplay muted loop playsinline preload="auto" src="video-02.mp4"></video>
+    <video data-key="c" autoplay muted loop playsinline preload="auto" src="video-03.mp4"></video>
   </div>
 
-  <!-- Foreground content (images only) -->
+  <!-- Foreground content (PNGs) -->
   <main class="fg">
     <section class="panel" data-video="a">
-      <img src="image-01.jpg" alt="">
+      <img src="placeholder_body_01.png" alt="">
     </section>
 
     <section class="panel" data-video="b">
-      <img src="image-02.jpg" alt="">
+      <img src="placeholder_body_02.png" alt="">
     </section>
 
     <section class="panel" data-video="c">
-      <img src="image-03.jpg" alt="">
+      <img src="placeholder_body_03.png" alt="">
     </section>
   </main>
 
@@ -86,37 +90,47 @@
     const panels = [...document.querySelectorAll('.panel')];
     const map = new Map(videos.map(v => [v.dataset.key, v]));
 
-    let active = panels[0]?.dataset.video;
-    if (map.get(active)) map.get(active).style.opacity = 1;
+    let activeKey = panels[0]?.dataset.video || videos[0]?.dataset.key;
 
-    function score(panel) {
-      const r = panel.getBoundingClientRect();
+    function setActive(key) {
+      if (!map.has(key) || key === activeKey) return;
+      activeKey = key;
+
+      for (const v of videos) {
+        const on = (v.dataset.key === activeKey);
+        v.style.opacity = on ? 1 : 0;
+      }
+    }
+
+    function centeredPanelKey() {
       const vh = window.innerHeight || 1;
-      const center = vh / 2;
-      const panelCenter = r.top + r.height / 2;
-      return 1 - Math.min(1, Math.abs(panelCenter - center) / (vh * 0.6));
+      const centerY = vh * 0.5;
+
+      let bestKey = activeKey;
+      let bestDist = Infinity;
+
+      for (const p of panels) {
+        const r = p.getBoundingClientRect();
+        if (r.bottom <= 0 || r.top >= vh) continue;
+
+        const pCenter = r.top + r.height * 0.5;
+        const dist = Math.abs(pCenter - centerY);
+
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestKey = p.dataset.video;
+        }
+      }
+      return bestKey;
     }
 
     function update() {
-      let bestPanel = null;
-      let bestScore = -1;
-
-      for (const p of panels) {
-        const s = score(p);
-        if (s > bestScore) { bestScore = s; bestPanel = p; }
-      }
-      if (!bestPanel) return;
-
-      const key = bestPanel.dataset.video;
-      if (key === active) return;
-
-      active = key;
-      for (const v of videos) {
-        const on = (v.dataset.key === key);
-        v.style.opacity = on ? 1 : 0;
-        if (on && v.paused) v.play().catch(()=>{});
-      }
+      setActive(centeredPanelKey());
     }
+
+    // Start videos (muted) for reliable switching; show initial
+    for (const v of videos) v.play().catch(()=>{});
+    for (const v of videos) v.style.opacity = (v.dataset.key === activeKey) ? 1 : 0;
 
     let ticking = false;
     function onScroll() {
@@ -130,7 +144,12 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+    update();
   </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
