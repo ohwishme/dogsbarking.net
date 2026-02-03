@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bodyjacking Proof Of Concept</title>
+  <title>Bodyjacking Proof of Concept</title>
 
   <style>
     html, body {
@@ -19,7 +19,6 @@
       inset: 0;
       z-index: 0;
       overflow: hidden;
-      pointer-events: none; /* never block foreground */
     }
 
     .bg video {
@@ -36,8 +35,7 @@
     /* Foreground content */
     .fg {
       position: relative;
-      z-index: 2;          /* ensure above videos */
-      pointer-events: auto;
+      z-index: 1;
     }
 
     .panel {
@@ -49,14 +47,11 @@
       margin: 0;
     }
 
-    /* PNGs scale to browser width */
     img {
       width: 100vw;
       max-width: 100vw;
       height: auto;
       display: block;
-      position: relative;
-      z-index: 3;          /* belt + suspenders */
     }
   </style>
 </head>
@@ -88,20 +83,24 @@
   <script>
     const videos = [...document.querySelectorAll('.bg video')];
     const panels = [...document.querySelectorAll('.panel')];
-    const map = new Map(videos.map(v => [v.dataset.key, v]));
 
+    const map = new Map(videos.map(v => [v.dataset.key, v]));
     let activeKey = panels[0]?.dataset.video || videos[0]?.dataset.key;
 
     function setActive(key) {
       if (!map.has(key) || key === activeKey) return;
-      activeKey = key;
 
+      activeKey = key;
       for (const v of videos) {
         const on = (v.dataset.key === activeKey);
         v.style.opacity = on ? 1 : 0;
+
+        // keep all videos running so switching is instant
+        if (v.paused) v.play().catch(()=>{});
       }
     }
 
+    // Determine which panel is most "centered" in the viewport
     function centeredPanelKey() {
       const vh = window.innerHeight || 1;
       const centerY = vh * 0.5;
@@ -111,6 +110,8 @@
 
       for (const p of panels) {
         const r = p.getBoundingClientRect();
+
+        // ignore panels completely offscreen
         if (r.bottom <= 0 || r.top >= vh) continue;
 
         const pCenter = r.top + r.height * 0.5;
@@ -128,10 +129,7 @@
       setActive(centeredPanelKey());
     }
 
-    // Start videos (muted) for reliable switching; show initial
-    for (const v of videos) v.play().catch(()=>{});
-    for (const v of videos) v.style.opacity = (v.dataset.key === activeKey) ? 1 : 0;
-
+    // rAF throttling
     let ticking = false;
     function onScroll() {
       if (ticking) return;
@@ -142,6 +140,10 @@
       });
     }
 
+    // Initialize: start all videos (muted) for reliable switching, show first
+    for (const v of videos) v.play().catch(()=>{});
+    for (const v of videos) v.style.opacity = (v.dataset.key === activeKey) ? 1 : 0;
+
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     update();
@@ -149,6 +151,7 @@
 
 </body>
 </html>
+
 
 
 </body>
