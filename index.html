@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>may peace prevail on planet earth</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.gif {
+    width: 70vw;
+    max-width: 900px;
+    min-width: 280px;
+    height: auto;
+    display: block;
+    margin: 0 auto 30px;
+}
+
+.description {
+    font-family: "MS Mincho", "MS PMincho", serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 30px;
+    color: #ddd;
+}
+
+.paypal-button img {
+    width: 220px;
+    max-width: 80%;
+    height: auto;
+    transition: opacity 0.2s ease;
+}
+
+.paypal-button:hover img {
+    opacity: 0.85;
+}
+
+@media (max-width: 768px) {
+    .gif {
+        width: 90vw;
+    }
+
+    .description {
+        font-size: 0.9rem;
+        padding: 0 10px;
+    }
+
+    .paypal-button img {
+        width: 200px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Replace with your GIF -->
+    <img src="dogs.gif" alt="Animated GIF" class="gif">
+
+    <p class="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+        fringilla, velit vitae feugiat interdum, risus mauris posuere odio,
+        eget tincidunt justo lacus non sapien.
+    </p>
+
+    <!-- Replace YOUR_PAYPAL_LINK with your PayPal payment link -->
+    <a
+        class="paypal-button"
+        href="https://www.paypal.com/ncp/payment/YOUR_PAYPAL_LINK"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        <img
+            src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png"
+            alt="PayPal Checkout">
+    </a>
+
+</div>
+
+</body>
+</html>
