@@ -8,7 +8,6 @@
 
     <style>
 
-        /* Custom OTF font: change the filename below to your uploaded font file */
         @font-face {
             font-family: "MyCustomMincho";
             src: url("IPAMINCHO REGULAR.TTF") format("truetype");
@@ -262,6 +261,7 @@
                     aria-label="Play">
 
                     <img
+                        id="playButtonImage"
                         src="play.png"
                         alt="Play">
 
@@ -314,6 +314,9 @@
 
     const playButton =
         document.getElementById("playButton");
+
+    const playButtonImage =
+        document.getElementById("playButtonImage");
 
     const previousButton =
         document.getElementById("previousButton");
@@ -368,11 +371,18 @@
 
         audio.play();
 
+     
+        playButtonImage.src = "pause.png";
+        playButtonImage.alt = "Pause";
+
     }
 
     function pauseSong() {
 
         audio.pause();
+
+        playButtonImage.src = "play.png";
+        playButtonImage.alt = "Play";
 
     }
 
