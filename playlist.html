@@ -35,103 +35,72 @@
         .page {
             width: 100%;
             min-height: 100vh;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             padding: 20px;
         }
 
         .player {
             position: relative;
-
             width: min(430px, 100%);
             aspect-ratio: 9 / 16;
-
             background-image: url("player_background.png");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-
             overflow: hidden;
-
             box-shadow: 0 0 0px rgba(255, 255, 255, 0.08);
         }
 
         .player-interface {
             position: absolute;
-
             left: 50%;
             top: 50%;
-
             transform: translate(-50%, -50%);
-
             width: 375px;
             max-width: 80%;
-
             background: rgba(0, 0, 0, 0);
-
             color: red;
-
             padding: 15px;
-
             border-radius: 6px;
-
             font-family: "MyCustomMincho", serif;
         }
 
         .song-title {
             text-align: center;
-
             font-size: 18.75px;
-
             margin-bottom: 12px;
-
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-
             color: red;
-
             font-family: "MyCustomMincho", serif;
         }
 
         .controls {
             display: flex;
-
             justify-content: center;
             align-items: center;
-
-            gap: 12px;
-
+            gap: 15px;
             margin-bottom: 12px;
         }
 
         .control-button {
             border: none;
-
             background: transparent;
-
             padding: 0;
-
             margin: 0;
-
             cursor: pointer;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
         }
 
         .control-button img {
             display: block;
-
             width: 28px;
             height: 28px;
-
             object-fit: contain;
         }
 
@@ -145,25 +114,17 @@
 
         .playlist {
             max-height: 225px;
-
             overflow-y: auto;
-
             border-top: 1px solid rgba(255, 0, 0, 0.3);
-
             padding-top: 8px;
         }
 
         .song {
             padding: 8px;
-
             cursor: pointer;
-
             border-radius: 3px;
-
             font-family: "MyCustomMincho", serif;
-
             font-size: 14px;
-
             color: red;
         }
 
@@ -188,18 +149,14 @@
             .player-interface {
                 width: 78%;
                 padding: 10px;
-
                 color: red;
-
                 font-family: "MyCustomMincho", serif;
             }
 
             .song-title {
                 font-size: 17.5px;
                 margin-bottom: 8px;
-
                 color: red;
-
                 font-family: "MyCustomMincho", serif;
             }
 
@@ -209,7 +166,7 @@
             }
 
             .controls {
-                gap: 8px;
+                gap: 10px;
                 margin-bottom: 8px;
             }
 
@@ -220,9 +177,7 @@
             .song {
                 padding: 6px;
                 font-size: 9px;
-
                 color: red;
-
                 font-family: "MyCustomMincho", serif;
             }
         }
