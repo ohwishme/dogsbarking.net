@@ -7,6 +7,16 @@
     <title>may peace prevail on planet earth - stream</title>
 
     <style>
+
+        /* Custom OTF font: change the filename below to your uploaded font file */
+        @font-face {
+            font-family: "MyCustomMincho";
+            src: url("YOUR-FONT-FILE.otf") format("opentype");
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -20,10 +30,9 @@
         }
 
         body {
-            font-family: "MS Mincho", serif;
+            font-family: "MyCustomMincho", serif;
         }
 
-   
         .page {
             width: 100%;
             min-height: 100vh;
@@ -35,7 +44,6 @@
             padding: 20px;
         }
 
-  
         .player {
             position: relative;
 
@@ -52,7 +60,6 @@
             box-shadow: 0 0 0px rgba(255, 255, 255, 0.08);
         }
 
-   
         .player-interface {
             position: absolute;
 
@@ -72,9 +79,8 @@
 
             border-radius: 6px;
 
-            font-family: "MS Mincho", serif;
+            font-family: "MyCustomMincho", serif;
         }
-
 
         .song-title {
             text-align: center;
@@ -88,8 +94,9 @@
             text-overflow: ellipsis;
 
             color: red;
-        }
 
+            font-family: "MyCustomMincho", serif;
+        }
 
         .controls {
             display: flex;
@@ -102,7 +109,6 @@
             margin-bottom: 12px;
         }
 
-       
         .control-button {
             border: none;
 
@@ -138,7 +144,6 @@
             transform: scale(0.95);
         }
 
-       
         .playlist {
             max-height: 225px;
 
@@ -156,7 +161,7 @@
 
             border-radius: 3px;
 
-            font-family: "MS Mincho", serif;
+            font-family: "MyCustomMincho", serif;
 
             font-size: 14px;
 
@@ -171,9 +176,6 @@
             background: rgba(255, 0, 0, 0.22);
         }
 
-        /*
-         * MOBIL
-         */
         @media (max-width: 600px) {
 
             .page {
@@ -189,6 +191,8 @@
                 padding: 10px;
 
                 color: red;
+
+                font-family: "MyCustomMincho", serif;
             }
 
             .song-title {
@@ -196,9 +200,10 @@
                 margin-bottom: 8px;
 
                 color: red;
+
+                font-family: "MyCustomMincho", serif;
             }
 
-           
             .control-button img {
                 width: 32px;
                 height: 32px;
@@ -218,8 +223,11 @@
                 font-size: 9px;
 
                 color: red;
+
+                font-family: "MyCustomMincho", serif;
             }
         }
+
     </style>
 </head>
 
@@ -237,7 +245,6 @@
 
             <div class="controls">
 
-            
                 <button
                     class="control-button"
                     id="previousButton"
@@ -249,8 +256,6 @@
 
                 </button>
 
-
-             
                 <button
                     class="control-button"
                     id="playButton"
@@ -262,8 +267,6 @@
 
                 </button>
 
-
-                
                 <button
                     class="control-button"
                     id="nextButton"
@@ -277,7 +280,9 @@
 
             </div>
 
-            <div class="playlist" id="playlist">
+            <div
+                class="playlist"
+                id="playlist">
             </div>
 
         </div>
@@ -286,13 +291,9 @@
 
 </div>
 
-
 <audio id="audio"></audio>
 
-
 <script>
-
-   
 
     const songs = [
 
@@ -307,7 +308,6 @@
         }
 
     ];
-
 
     const audio =
         document.getElementById("audio");
@@ -327,11 +327,8 @@
     const playlist =
         document.getElementById("playlist");
 
-
     let currentSong = 0;
 
-
-   
     songs.forEach((song, index) => {
 
         const item =
@@ -339,7 +336,8 @@
 
         item.classList.add("song");
 
-        item.textContent = song.title;
+        item.textContent =
+            song.title;
 
         item.addEventListener("click", () => {
 
@@ -352,8 +350,6 @@
 
     });
 
-
-  
     function loadSong(index) {
 
         currentSong = index;
@@ -368,30 +364,18 @@
 
     }
 
-
-   
     function playSong() {
 
         audio.play();
 
-        /*
-         * Change the image to the pause PNG
-         * when you add one, if desired.
-         *
-         * Currently the same play image remains.
-         */
     }
 
-
-  
     function pauseSong() {
 
         audio.pause();
 
     }
 
-
-  
     playButton.addEventListener("click", () => {
 
         if (audio.paused) {
@@ -406,8 +390,6 @@
 
     });
 
-
-   
     previousButton.addEventListener("click", () => {
 
         currentSong--;
@@ -425,8 +407,6 @@
 
     });
 
-
-   
     nextButton.addEventListener("click", () => {
 
         currentSong++;
@@ -443,8 +423,6 @@
 
     });
 
-
- 
     audio.addEventListener("ended", () => {
 
         currentSong++;
@@ -461,8 +439,6 @@
 
     });
 
-
-    
     function updatePlaylist() {
 
         const items =
@@ -484,8 +460,6 @@
 
     }
 
-
-   
     loadSong(0);
 
 </script>
