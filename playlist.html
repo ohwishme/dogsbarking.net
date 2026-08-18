@@ -23,7 +23,7 @@
             font-family: "MS Mincho", serif;
         }
 
-        /* Black background */
+   
         .page {
             width: 100%;
             min-height: 100vh;
@@ -35,7 +35,7 @@
             padding: 20px;
         }
 
-        /* Portrait artwork */
+  
         .player {
             position: relative;
 
@@ -52,7 +52,7 @@
             box-shadow: 0 0 0px rgba(255, 255, 255, 0.08);
         }
 
-        /* Music player */
+   
         .player-interface {
             position: absolute;
 
@@ -66,7 +66,6 @@
 
             background: rgba(0, 0, 0, 0);
 
-            /* RED FONT */
             color: red;
 
             padding: 15px;
@@ -76,7 +75,7 @@
             font-family: "MS Mincho", serif;
         }
 
-        /* Current song */
+
         .song-title {
             text-align: center;
 
@@ -91,7 +90,7 @@
             color: red;
         }
 
-        /* Controls */
+
         .controls {
             display: flex;
 
@@ -103,32 +102,43 @@
             margin-bottom: 12px;
         }
 
-        button {
+       
+        .control-button {
             border: none;
 
-            background: #fff;
-            color: red;
+            background: transparent;
 
-            padding: 8px 12px;
+            padding: 0;
 
-            font-family: "MS Mincho", serif;
-
-            font-size: 12px;
+            margin: 0;
 
             cursor: pointer;
 
-            border-radius: 3px;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
         }
 
-        button:hover {
-            background: #ddd;
+        .control-button img {
+            display: block;
+
+            width: 40px;
+            height: 40px;
+
+            object-fit: contain;
         }
 
-        button:active {
-            transform: scale(0.97);
+        .control-button:hover {
+            background: transparent;
         }
 
-        /* Playlist */
+        .control-button:active {
+            transform: scale(0.95);
+        }
+
+       
         .playlist {
             max-height: 225px;
 
@@ -162,7 +172,7 @@
         }
 
         /*
-         * Mobile
+         * MOBIL
          */
         @media (max-width: 600px) {
 
@@ -178,7 +188,6 @@
                 width: 78%;
                 padding: 10px;
 
-                /* Ensure red font on mobile */
                 color: red;
             }
 
@@ -189,11 +198,10 @@
                 color: red;
             }
 
-            button {
-                padding: 6px 9px;
-                font-size: 9px;
-
-                color: red;
+           
+            .control-button img {
+                width: 32px;
+                height: 32px;
             }
 
             .controls {
@@ -229,16 +237,42 @@
 
             <div class="controls">
 
-                <button id="previousButton">
-                    ◀
+            
+                <button
+                    class="control-button"
+                    id="previousButton"
+                    aria-label="Previous song">
+
+                    <img
+                        src="back.png"
+                        alt="Previous song">
+
                 </button>
 
-                <button id="playButton">
-                    ▶
+
+             
+                <button
+                    class="control-button"
+                    id="playButton"
+                    aria-label="Play">
+
+                    <img
+                        src="play.png"
+                        alt="Play">
+
                 </button>
 
-                <button id="nextButton">
-                    ▶
+
+                
+                <button
+                    class="control-button"
+                    id="nextButton"
+                    aria-label="Next song">
+
+                    <img
+                        src="forward.png"
+                        alt="Next song">
+
                 </button>
 
             </div>
@@ -258,11 +292,7 @@
 
 <script>
 
-    /*
-     * ==========================================
-     * PLAYLIST
-     * ==========================================
-     */
+   
 
     const songs = [
 
@@ -301,9 +331,7 @@
     let currentSong = 0;
 
 
-    /*
-     * Create playlist
-     */
+   
     songs.forEach((song, index) => {
 
         const item =
@@ -325,9 +353,7 @@
     });
 
 
-    /*
-     * Load a song
-     */
+  
     function loadSong(index) {
 
         currentSong = index;
@@ -343,33 +369,29 @@
     }
 
 
-    /*
-     * Play
-     */
+   
     function playSong() {
 
         audio.play();
 
-        playButton.textContent = "❚❚";
-
+        /*
+         * Change the image to the pause PNG
+         * when you add one, if desired.
+         *
+         * Currently the same play image remains.
+         */
     }
 
 
-    /*
-     * Pause
-     */
+  
     function pauseSong() {
 
         audio.pause();
 
-        playButton.textContent = "▶";
-
     }
 
 
-    /*
-     * Play / Pause
-     */
+  
     playButton.addEventListener("click", () => {
 
         if (audio.paused) {
@@ -385,9 +407,7 @@
     });
 
 
-    /*
-     * Previous song
-     */
+   
     previousButton.addEventListener("click", () => {
 
         currentSong--;
@@ -406,9 +426,7 @@
     });
 
 
-    /*
-     * Next song
-     */
+   
     nextButton.addEventListener("click", () => {
 
         currentSong++;
@@ -426,10 +444,7 @@
     });
 
 
-    /*
-     * Automatically play the next song
-     * when the current song finishes.
-     */
+ 
     audio.addEventListener("ended", () => {
 
         currentSong++;
@@ -447,9 +462,7 @@
     });
 
 
-    /*
-     * Highlight currently selected song
-     */
+    
     function updatePlaylist() {
 
         const items =
@@ -472,9 +485,7 @@
     }
 
 
-    /*
-     * Load first song without automatically playing it.
-     */
+   
     loadSong(0);
 
 </script>
