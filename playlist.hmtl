@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DOGS 2</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* Black background */
+        .page {
+            width: 100%;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        /*
+         * 1080 x 1920 portrait artwork
+         */
+        .player {
+            position: relative;
+
+            width: min(1080px, 100%);
+            height: auto;
+
+            aspect-ratio: 9 / 16;
+
+            background-image: url("player_background.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            overflow: hidden;
+
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+        }
+
+        /*
+         * Music player interface
+         */
+        .player-interface {
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: min(500px, 80%);
+
+            background: rgba(0, 0, 0, 0.65);
+            color: white;
+
+            padding: 20px;
+
+            border-radius: 8px;
+        }
+
+        /* Current song */
+        .song-title {
+            text-align: center;
+
+            font-size: 20px;
+
+            margin-bottom: 15px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Buttons */
+        .controls {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 15px;
+        }
+
+        button {
+            border: none;
+
+            background: #fff;
+            color: #000;
+
+            padding: 10px 16px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background: #ddd;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        /* Playlist */
+        .playlist {
+            max-height: 300px;
+
+            overflow-y: auto;
+
+            border-top: 1px solid rgba(255,255,255,0.3);
+
+            padding-top: 10px;
+        }
+
+        .song {
+            padding: 10px;
+
+            cursor: pointer;
+
+            border-radius: 3px;
+        }
+
+        .song:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .song.active {
+            background: rgba(255,255,255,0.22);
+        }
+
+        /*
+         * Mobile
+         */
+        @media (max-width: 600px) {
+
+            .page {
+                padding: 10px;
+            }
+
+            .player-interface {
+                width: 82%;
+
+                padding: 12px;
+            }
+
+            .song-title {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 8px 12px;
+
+                font-size: 14px;
+            }
+
+            .playlist {
+                max-height: 220px;
+            }
+
+            .song {
+                padding: 8px;
+
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="player">
+
+        <div class="player-interface">
+
+            <div class="song-title" id="songTitle">
+                Select a song
+            </div>
+
+            <div class="controls">
+
+                <button id="previousButton">
+                    ◀
+                </button>
+
+                <button id="playButton">
+                    ▶
+                </button>
+
+                <button id="nextButton">
+                    ▶
+                </button>
+
+            </div>
+
+            <div class="playlist" id="playlist">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<audio id="audio"></audio>
+
+
+<script>
+
+    /*
+     * ==========================================
+     * PLAYLIST
+     * ==========================================
+     *
+     * Change these to the music files on
+     * your website.
+     */
+
+    const songs = [
+
+        {
+            title: "01",
+            file: "/music/01.mp3"
+        },
+
+    
+
+    ];
+
+
+    const audio = document.getElementById("audio");
+
+    const playButton =
+        document.getElementById("playButton");
+
+    const previousButton =
+        document.getElementById("previousButton");
+
+    const nextButton =
+        document.getElementById("nextButton");
+
+    const songTitle =
+        document.getElementById("songTitle");
+
+    const playlist =
+        document.getElementById("playlist");
+
+
+    let currentSong = 0;
+
+
+    /*
+     * Create playlist
+     */
+    songs.forEach((song, index) => {
+
+        const item = document.createElement("div");
+
+        item.classList.add("song");
+
+        item.textContent = song.title;
+
+        item.addEventListener("click", () => {
+
+            loadSong(index);
+
+            playSong();
+
+        });
+
+        playlist.appendChild(item);
+
+    });
+
+
+    /*
+     * Load song
+     */
+    function loadSong(index) {
+
+        currentSong = index;
+
+        audio.src = songs[currentSong].file;
+
+        songTitle.textContent =
+            songs[currentSong].title;
+
+        updatePlaylist();
+
+    }
+
+
+    /*
+     * Play
+     */
+    function playSong() {
+
+        audio.play();
+
+        playButton.textContent = "❚❚";
+
+    }
+
+
+    /*
+     * Pause
+     */
+    function pauseSong() {
+
+        audio.pause();
+
+        playButton.textContent = "▶";
+
+    }
+
+
+    /*
+     * Play / Pause
+     */
+    playButton.addEventListener("click", () => {
+
+        if (audio.paused) {
+
+            playSong();
+
+        } else {
+
+            pauseSong();
+
+        }
+
+    });
+
+
+    /*
+     * Previous
+     */
+    previousButton.addEventListener("click", () => {
+
+        currentSong--;
+
+        if (currentSong < 0) {
+
+            currentSong = songs.length - 1;
+
+        }
+
+        loadSong(currentSong);
+
+        playSong();
+
+    });
+
+
+    /*
+     * Next
+     */
+    nextButton.addEventListener("click", () => {
+
+        currentSong++;
+
+        if (currentSong >= songs.length) {
+
+            currentSong = 0;
+
+        }
+
+        loadSong(currentSong);
+
+        playSong();
+
+    });
+
+
+    /*
+     * Automatically play next song
+     */
+    audio.addEventListener("ended", () => {
+
+        currentSong++;
+
+        if (currentSong >= songs.length) {
+
+            currentSong = 0;
+
+        }
+
+        loadSong(currentSong);
+
+        playSong();
+
+    });
+
+
+    /*
+     * Highlight current song
+     */
+    function updatePlaylist() {
+
+        const items =
+            document.querySelectorAll(".song");
+
+        items.forEach((item, index) => {
+
+            if (index === currentSong) {
+
+                item.classList.add("active");
+
+            } else {
+
+                item.classList.remove("active");
+
+            }
+
+        });
+
+    }
+
+
+    /*
+     * Load first song without playing
+     */
+    loadSong(0);
+
+</script>
+
+</body>
+</html>
