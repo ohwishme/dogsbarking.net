@@ -35,7 +35,7 @@
             padding: 20px;
         }
 
-        
+        /* Portrait artwork */
         .player {
             position: relative;
 
@@ -52,12 +52,7 @@
             box-shadow: 0 0 0px rgba(255, 255, 255, 0.08);
         }
 
-        /*
-         * Music player
-         *
-         * Original player width: 250px
-         * Current size: 150% = 375px
-         */
+        /* Music player */
         .player-interface {
             position: absolute;
 
@@ -71,7 +66,8 @@
 
             background: rgba(0, 0, 0, 0);
 
-            color: white;
+            /* RED FONT */
+            color: red;
 
             padding: 15px;
 
@@ -91,6 +87,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+
+            color: red;
         }
 
         /* Controls */
@@ -109,7 +107,7 @@
             border: none;
 
             background: #fff;
-            color: #000;
+            color: red;
 
             padding: 8px 12px;
 
@@ -136,7 +134,7 @@
 
             overflow-y: auto;
 
-            border-top: 1px solid rgba(255,255,255,0.3);
+            border-top: 1px solid rgba(255, 0, 0, 0.3);
 
             padding-top: 8px;
         }
@@ -151,14 +149,16 @@
             font-family: "MS Mincho", serif;
 
             font-size: 14px;
+
+            color: red;
         }
 
         .song:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 0, 0, 0.12);
         }
 
         .song.active {
-            background: rgba(255,255,255,0.22);
+            background: rgba(255, 0, 0, 0.22);
         }
 
         /*
@@ -170,25 +170,30 @@
                 padding: 10px;
             }
 
-         
             .player {
                 width: min(486px, calc(100vw - 20px));
             }
 
-            
             .player-interface {
                 width: 78%;
                 padding: 10px;
+
+                /* Ensure red font on mobile */
+                color: red;
             }
 
             .song-title {
                 font-size: 14px;
                 margin-bottom: 8px;
+
+                color: red;
             }
 
             button {
                 padding: 6px 9px;
                 font-size: 9px;
+
+                color: red;
             }
 
             .controls {
@@ -203,6 +208,8 @@
             .song {
                 padding: 6px;
                 font-size: 9px;
+
+                color: red;
             }
         }
     </style>
@@ -267,8 +274,7 @@
         {
             title: "Song Two",
             file: "chopped wood.wav"
-        },
-
+        }
 
     ];
 
@@ -295,7 +301,9 @@
     let currentSong = 0;
 
 
-   
+    /*
+     * Create playlist
+     */
     songs.forEach((song, index) => {
 
         const item =
